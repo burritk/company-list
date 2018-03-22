@@ -70,7 +70,7 @@ def get_info(tree, project_no, client_id, input_name, url):
                 operating_income = field.text_content().strip()
             if 'net income' in thead.text_content().lower():
                 net_income = field.text_content().strip()
-            if 'owner' in thead.text_content().lower():
+            if 'owne' in thead.text_content().lower():
                 owners = field.text_content().strip()
             if 'website' in thead.text_content().lower():
                 website = field.text_content().strip()
