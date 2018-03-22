@@ -134,8 +134,9 @@ for i in range(2, 7501):
             try:
                 get_info(tree, project_no, client_id, name, og_url)
             except:
-                traceback.print_exc()
-                pass
+                tweets = ''.join(get_tweets(name))
+                cur.execute(query, (project_no, client_id, name, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', tweets))
+                conn.commit()
             continue
         matches = []
         for result in results:
