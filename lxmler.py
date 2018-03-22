@@ -9,7 +9,7 @@ from selenium.common.exceptions import TimeoutException
 
 import sqlite3
 
-from company_list.tweepstr import get_tweets
+from tweepstr import get_tweets
 
 conn = sqlite3.connect('companies2.db')
 cur = conn.cursor()
