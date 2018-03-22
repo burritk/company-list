@@ -125,6 +125,7 @@ async def main():
     init = -1
     num = 0
     while True:
+        print(num, end='')
         if num > 500:
             break
         if len(feed) > 0:
