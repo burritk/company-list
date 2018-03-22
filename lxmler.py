@@ -152,15 +152,17 @@ for i in range(2, 7501):
                     print(name, result.text_content())
                     print()
             # print(result.text)
+        match_successes = 0
         for match in matches:
             try:
                 # pass
                 tree, og_url = _gen_tree(base_url + match)
                 get_info(tree, project_no, client_id, name, og_url)
+                match_successes += 1
             except:
                 traceback.print_exc()
                 pass
-        if len(matches) == 0:
+        if match_successes == 0 or len(matches) == 0:
             tweets = ''.join(get_tweets(name))
             cur.execute(query, (project_no, client_id, name, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', tweets))
             conn.commit()
