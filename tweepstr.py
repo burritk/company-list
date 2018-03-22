@@ -110,7 +110,7 @@ async def getTweets(init):
         copyright = tweet.find("div","StreamItemContent--withheld")
         if copyright is None:
             count +=1
-            print(await outTweet(tweet))
+            await outTweet(tweet)
 
     return tweets, init, count
 
