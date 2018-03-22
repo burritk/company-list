@@ -123,7 +123,7 @@ for i in range(2, 7501):
         project_no = ws['A' + str(i)].value
         client_id = ws['B' + str(i)].value
         if client_id in client_ids:
-            print('owo')
+            print(i)
             continue
         name = ws['C' + str(i)].value
         url = 'https://en.wikipedia.org/w/index.php?search=' + name.replace(' ', '+').replace('&', '%26')
