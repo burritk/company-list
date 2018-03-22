@@ -13,14 +13,14 @@ from company_list.tweepstr import get_tweets
 
 conn = sqlite3.connect('companies2.db')
 cur = conn.cursor()
-cur.execute('CREATE TABLE companies (input_name text, title text, type text, industry text, founded text, founder text, headquarters text, key_people text, products text, revenue text, operating_income text, net_income text, owners text, website text, traded_as text, subsidiaries text, area_served text, parent text, divisions text, link text, tweets text)')
-query = 'INSERT INTO companies VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+cur.execute('CREATE TABLE companies (project_number text, client_id text, input_name text, title text, type text, industry text, founded text, founder text, headquarters text, key_people text, products text, revenue text, operating_income text, net_income text, owners text, website text, traded_as text, subsidiaries text, area_served text, parent text, divisions text, link text, tweets text)')
+query = 'INSERT INTO companies VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
 
 print(requests.__version__)
 
 wb = load_workbook('client_list.xlsx')
 ws = wb.active
-def get_info(tree, input_name, url):
+def get_info(tree, project_no, client_id, input_name, url):
     info = tree.xpath('//*[@id="mw-content-text"]/div/table')[0]
     title = tree.xpath('//*[@id="firstHeading"]')[0].text_content()
     type = ''
@@ -106,7 +106,7 @@ def get_info(tree, input_name, url):
           parent,
           divisions)
     tweets = ''.join(get_tweets(input_name))
-    cur.execute(query, (input_name, title, type, industry, founded, founder, headquarters, key_people, products, revenue, operating_income, net_income, owners, website, traded_as, subsidiaries, area_served, parent, divisions, og_url, tweets))
+    cur.execute(query, (project_no, client_id, input_name, title, type, industry, founded, founder, headquarters, key_people, products, revenue, operating_income, net_income, owners, website, traded_as, subsidiaries, area_served, parent, divisions, url, tweets))
     conn.commit()
     # print('\nd\n')
 
@@ -119,6 +119,8 @@ def _gen_tree(url):
 base_url = 'https://en.wikipedia.org'
 for i in range(2, 7501):
     try:
+        project_no = ws['A' + str(i)].value
+        client_id = ws['B' + str(i)].value
         name = ws['C' + str(i)].value
         url = 'https://en.wikipedia.org/w/index.php?search=' + name.replace(' ', '+').replace('&', '%26')
         tree, og_url = _gen_tree(url)
@@ -126,7 +128,7 @@ for i in range(2, 7501):
         results = tree.xpath('//ul[@class="mw-search-results"]/li')
         if len(results) < 1:
             try:
-                get_info(tree, name, og_url)
+                get_info(tree, project_no, client_id, name, og_url)
             except:
                 traceback.print_exc()
                 pass
@@ -155,7 +157,7 @@ for i in range(2, 7501):
                 pass
         if len(matches) == 0:
             tweets = ''.join(get_tweets(name))
-            cur.execute(query, (name, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', tweets))
+            cur.execute(query, (project_no, client_id, name, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', tweets))
             conn.commit()
     except TimeoutException:
         traceback.print_exc()
