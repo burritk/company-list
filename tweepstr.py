@@ -125,6 +125,8 @@ async def main():
     init = -1
     num = 0
     while True:
+        if num > 800:
+            break
         if len(feed) > 0:
             feed, init, count = await getTweets(init)
             num += count
