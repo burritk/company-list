@@ -151,7 +151,7 @@ for i in range(2, 7501):
             try:
                 # pass
                 tree, og_url = _gen_tree(base_url + match)
-                get_info(tree, name, og_url)
+                get_info(tree, project_no, client_id, name, og_url)
             except:
                 traceback.print_exc()
                 pass
@@ -161,5 +161,5 @@ for i in range(2, 7501):
             conn.commit()
     except TimeoutException:
         traceback.print_exc()
-        get_info(tree)
+        get_info(tree, project_no, client_id, name, og_url)
 print('l')
