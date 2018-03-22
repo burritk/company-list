@@ -116,11 +116,15 @@ def _gen_tree(url):
     page.close()
     return tree, page.url
 
+client_ids = [tuple[0] for tuple in cur.execute('select client_id from companies')]
 base_url = 'https://en.wikipedia.org'
 for i in range(2, 7501):
     try:
         project_no = ws['A' + str(i)].value
         client_id = ws['B' + str(i)].value
+        if client_id in client_ids:
+            print('owo')
+            continue
         name = ws['C' + str(i)].value
         url = 'https://en.wikipedia.org/w/index.php?search=' + name.replace(' ', '+').replace('&', '%26')
         tree, og_url = _gen_tree(url)
