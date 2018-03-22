@@ -13,7 +13,7 @@ from tweepstr import get_tweets
 
 conn = sqlite3.connect('companies2.db')
 cur = conn.cursor()
-cur.execute('CREATE TABLE companies (project_number text, client_id text, input_name text, title text, type text, industry text, founded text, founder text, headquarters text, key_people text, products text, revenue text, operating_income text, net_income text, owners text, website text, traded_as text, subsidiaries text, area_served text, parent text, divisions text, link text, tweets text)')
+# cur.execute('CREATE TABLE companies (project_number text, client_id text, input_name text, title text, type text, industry text, founded text, founder text, headquarters text, key_people text, products text, revenue text, operating_income text, net_income text, owners text, website text, traded_as text, subsidiaries text, area_served text, parent text, divisions text, link text, tweets text)')
 query = 'INSERT INTO companies VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
 
 print(requests.__version__)
