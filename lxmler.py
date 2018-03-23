@@ -16,7 +16,7 @@ cur = conn.cursor()
 # cur.execute('CREATE TABLE companies (project_number text, client_id text, input_name text, title text, type text, industry text, founded text, founder text, headquarters text, key_people text, products text, revenue text, operating_income text, net_income text, owners text, website text, traded_as text, subsidiaries text, area_served text, parent text, divisions text, link text, tweets text)')
 query = 'INSERT INTO companies VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
 
-print(requests.__version__)
+# print(requests.__version__)
 
 wb = load_workbook('client_list.xlsx')
 ws = wb.active
@@ -88,23 +88,6 @@ def get_info(tree, project_no, client_id, input_name, url):
         except:
             # traceback.print_exc()
             continue
-    print(type,
-          industry,
-          founded,
-          founder,
-          headquarters,
-          key_people,
-          products,
-          revenue,
-          operating_income,
-          net_income,
-          owners,
-          website,
-          traded_as,
-          subsidiaries,
-          area_served,
-          parent,
-          divisions)
     tweets = ''.join(get_tweets(input_name))
     cur.execute(query, (project_no, client_id, input_name, title, type, industry, founded, founder, headquarters, key_people, products, revenue, operating_income, net_income, owners, website, traded_as, subsidiaries, area_served, parent, divisions, url, tweets))
     conn.commit()
@@ -123,9 +106,10 @@ for i in range(2, 7501):
         project_no = ws['A' + str(i)].value
         client_id = ws['B' + str(i)].value
         if client_id in client_ids:
-            print(i)
+            # print(i)
             continue
         name = ws['C' + str(i)].value
+        print('Processing ' + name)
         url = 'https://en.wikipedia.org/w/index.php?search=' + name.replace(' ', '+').replace('&', '%26')
         tree, og_url = _gen_tree(url)
         # wait_for_xpath(driver, '//ul[@class="mw-search-results"]', time=3)
@@ -145,12 +129,12 @@ for i in range(2, 7501):
             # if s.ratio() > .65:
             #     print(name, '||||||||', result.text_content().split('   ')[0], s.ratio())
             if name in result.text_content().split('   ')[0] or result.text_content().split('   ')[0] in name or s.ratio() > .70:
-                print('MATCH!', name, '||||||||', result.text_content().split('   ')[0], s.ratio())
+                # print('MATCH!', name, '||||||||', result.text_content().split('   ')[0], s.ratio())
                 matches.append(result.xpath('./div[1]/a')[0].get('href'))
             else:
                 if name in res_text:
-                    print(name, result.text_content())
-                    print()
+                    # print(name, result.text_content())
+                    # print()
             # print(result.text)
         match_successes = 0
         for match in matches:
@@ -169,4 +153,4 @@ for i in range(2, 7501):
     except TimeoutException:
         traceback.print_exc()
         get_info(tree, project_no, client_id, name, og_url)
-print('l')
+print('Done')
